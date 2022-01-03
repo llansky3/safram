@@ -10,7 +10,7 @@ uint8_t safram_crc_protect(void)
 	uint8_t *safram_end = PTR_UINT8_SAFRAM_END;
 	uint8_t crc;
 	
-    /* calculate CRC - excluding checksum itself*/
+    /* calculate CRC - excluding checksum itself */
 	crc = crc8(safram_start,(uint32_t) (safram_end - safram_start - 1) , 0xFF);
 	crc = crc ^ 0xFF;
 	
@@ -31,6 +31,7 @@ uint8_t safram_crc_check(void)
 	
 	if (*safram_end != crc)
 	{
+		/* Memory is corrupted */
 		return 1;
 	}
 	else

@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     char proc_mem[32];
     sprintf(proc_mem, "/proc/%d/mem", pid);
 
-    printf("opening %s, address is %ld\n", proc_mem, start_address);
+    printf("Opening %s, address is %ld\n", proc_mem, start_address);
     int fd_proc_mem = open(proc_mem, O_RDWR);
     if (fd_proc_mem == -1) {
         printf("Could not open %s\n", proc_mem);
@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
     lseek(fd_proc_mem, start_address, SEEK_SET);
     read(fd_proc_mem, data, length);
 
-    printf("data at %ld in process %d is:", start_address, pid);
+    printf("Data at %ld in process %d is:", start_address, pid);
     for (uint16_t i = 0; i < length; i++ ) {
         if (!(i % 10)) {
             printf("\n");

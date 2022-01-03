@@ -16,7 +16,19 @@ void restart(char **argv, uint8_t count)
     printf("This should never be reached!");
 }
 
-__attribute__((section(".data_safram"))) uint8_t testarray[] = {0, 0, 0, 0};
+__attribute__((section(".data_safram"))) uint8_t testarray[] = {0x33, 0x22, 0x55, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF};
+
+void periodic_task(char **argv, uint8_t count)
+{
+	uint8_t crc;
+	if (safram_crc_check()) {
+		restart(argv, count);
+	}
+	testarray[0]++;
+	crc = safram_crc_protect();
+	printf("testarray[0]=%lu, checksum=%lu\n", testarray[0], crc);
+	sleep(1);
+}
 
 int main(int argc, char **argv)
 {
@@ -28,11 +40,8 @@ int main(int argc, char **argv)
 	printf("This is an example of protecting RAM area with checksum! Run #%d!\n", count);
 	printf("pid=%d, safram start_address=%lx, length=%lu, checksum=%lu\n", getpid(), safram_start, safram_end - safram_start - 1, crc);
 
-	/* Waiting for external memory corruption */
+	/* Executing periodic task and waiting for external memory corruption */
 	while(1) {
-		if (safram_crc_check()) {
-			restart(argv, count);
-		}
-		sleep(1);
+		periodic_task(argv, count);
 	}
 }
