@@ -1,4 +1,3 @@
-/* Example of safety RAM protection & checking using checksum */
 #ifndef SAFRAM_CRC_H
 #define SAFRAM_CRC_H
 

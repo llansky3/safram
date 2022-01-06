@@ -20,12 +20,15 @@ __attribute__((section(".data_safram"))) uint8_t testarray[] = {0x33, 0x22, 0x55
 
 void periodic_task(char **argv, uint8_t count)
 {
+	/* Start of safety critical section */
 	uint8_t crc;
 	if (safram_crc_check()) {
 		restart(argv, count);
 	}
 	testarray[0]++;
 	crc = safram_crc_protect();
+	/* End of safety critical section */
+	
 	printf("testarray[0]=%lu, checksum=%lu\n", testarray[0], crc);
 	sleep(1);
 }

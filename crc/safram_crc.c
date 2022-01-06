@@ -1,4 +1,3 @@
-
 #include <stdint.h>
 
 #include "safram_crc.h"
