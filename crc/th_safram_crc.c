@@ -29,7 +29,7 @@ void periodic_task(char **argv, uint8_t count)
 	crc = safram_crc_protect();
 	/* End of safety critical section */
 	
-	printf("testarray[0]=%u, checksum=%u\n", testarray[0], crc);
+	printf("testarray[0]=%X, checksum=%u\n", testarray[0], crc);
 	sleep(1);
 }
 
