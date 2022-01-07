@@ -11,7 +11,7 @@ void restart(char **argv, uint8_t count)
 	char buffer[32] = {};
     char *nargv[] = {argv[0], buffer, 0};
 	
-    snprintf(buffer, sizeof(buffer), "%d",count + 1);
+    snprintf(buffer, sizeof(buffer), "%u",count + 1);
     execv("/proc/self/exe", nargv);
     printf("This should never be reached!");
 }
@@ -29,7 +29,7 @@ void periodic_task(char **argv, uint8_t count)
 	crc = safram_crc_protect();
 	/* End of safety critical section */
 	
-	printf("testarray[0]=%lu, checksum=%lu\n", testarray[0], crc);
+	printf("testarray[0]=%u, checksum=%u\n", testarray[0], crc);
 	sleep(1);
 }
 
@@ -41,7 +41,7 @@ int main(int argc, char **argv)
 	uint8_t crc = safram_crc_protect();
 	
 	printf("This is an example of protecting RAM area with checksum! Run #%d!\n", count);
-	printf("pid=%d, safram start_address=%lx, length=%lu, checksum=%lu\n", getpid(), safram_start, safram_end - safram_start - 1, crc);
+	printf("pid=%d, safram start_address=%p, length=%lu, checksum=%u\n", getpid(), safram_start, safram_end - safram_start - 1, crc);
 
 	/* Executing periodic task and waiting for external memory corruption */
 	while(1) {
