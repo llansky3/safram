@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/prctl.h>
 
 #include "safram_crc.h"
 
@@ -42,6 +43,12 @@ int main(int argc, char **argv)
 	
 	printf("This is an example of protecting RAM area with checksum! Run #%d!\n", count);
 	printf("pid=%d, safram start_address=%p, length=%lu, checksum=%u\n", getpid(), safram_start, safram_end - safram_start - 1, crc);
+
+	/* Allow debugging even if Yama ptrace scope is restricted */
+	#ifndef PTRACE_NOT_ALLOWED
+	printf("ptrace restrictions are effectively disabled\n");
+	prctl(PR_SET_PTRACER, PR_SET_PTRACER_ANY);
+	#endif
 
 	/* Executing periodic task and waiting for external memory corruption */
 	while(1) {

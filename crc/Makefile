@@ -15,7 +15,7 @@ OBJS = \
 all: clean th_safram_crc th_safram_corruption
 
 th_safram_crc: safram_crc.o crc8.o
-	$(CC) $(CFLAGS) $(OBJS) -o th_safram_crc th_safram_crc.c $(LDFLAGS)
+	$(CC) $(CFLAGS) $(DEFS) $(OBJS) -o th_safram_crc th_safram_crc.c $(LDFLAGS)
 	
 safram_crc.o: safram_crc.c
 	$(CC) $(CFLAGS) -c safram_crc.c
