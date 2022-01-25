@@ -11,12 +11,9 @@ LDFLAGS = \
 OBJS = \
 	safram_crc.o \
 	crc8.o
-		
-clean:
-	$(RM) *.o
-	$(RM) th_safram_crc 
-	$(RM) th_safram_corruption
-	
+
+all: clean th_safram_crc th_safram_corruption
+
 th_safram_crc: safram_crc.o crc8.o
 	$(CC) $(CFLAGS) $(OBJS) -o th_safram_crc th_safram_crc.c $(LDFLAGS)
 	
@@ -29,4 +26,7 @@ crc8.o: crc8.c
 th_safram_corruption:
 	$(CC) $(CFLAGS) -o th_safram_corruption th_safram_corruption.c
 
-all: clean th_safram_crc th_safram_corruption
+clean:
+	$(RM) *.o
+	$(RM) th_safram_crc 
+	$(RM) th_safram_corruption
