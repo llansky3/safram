@@ -5,9 +5,14 @@
 
 #include "safram_cplmnt.h"
 
-void restart(uint8_t x)
+void restart(char **argv, uint8_t count)
 {
-	printf("This is restart %u!\n", x);
+	char buffer[32] = {};
+    char *nargv[] = {argv[0], buffer, 0};
+	
+    snprintf(buffer, sizeof(buffer), "%u",count + 1);
+    execv("/proc/self/exe", nargv);
+    printf("This should never be reached!");
 }
 
 SAFRAM_DEF_UINT8_ARRAY(testarray) = {255, 254, 253, 252, 251, 250, 249, 248};
@@ -18,7 +23,7 @@ void periodic_task(char **argv, uint8_t count)
 	/* No specific safety critical section */
     uint8_t value;
     for(uint8_t i = 0; i < 8; i++) {
-        value = SAFRAM_GET_UINT8_ARRAY(testarray, i, restart(i));
+        value = SAFRAM_GET_UINT8_ARRAY(testarray, i, restart(argv, count));
         if (i == 1) {
             printf("testarray[%u]=0x%02X, one's complement=0x%02X\n", i, value, FCN_UINT8_CPLMNT(value));
             value += i;

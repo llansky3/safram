@@ -1,5 +1,10 @@
 notes.txt
 
+# Executables
+th_safram_crc
+th_safram_corruption
+th_safram_cplmnt
+
 # Prerequisites
 *.d
 
